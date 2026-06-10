@@ -73,13 +73,34 @@ Note: this project targets Python 3.10. The pinned scientific stack may try to b
 
 ## Example Results
 
-Run the scripts to refresh exact values. Expected output pattern:
+Results from the default synthetic dataset seed:
 
 | Model | Metric | Result | Business meaning |
 | --- | --- | ---: | --- |
-| SARIMAX | MAPE | Printed by script | Baseline time-series accuracy. |
-| XGBoost | MAPE | Printed by script | Usually improves by using nonlinear lag, price, and supply features. |
-| Scenario grid | Revenue | Saved to CSV | Recommends price/capacity actions by commodity. |
+| SARIMAX | MAE | 125.98 | Baseline average absolute forecast error. |
+| SARIMAX | MAPE | 10.147% | Baseline time-series percentage error. |
+| XGBoost | MAE | 61.42 | Lower absolute forecast error from nonlinear lag, price, and supply features. |
+| XGBoost | MAPE | 4.203% | About 58.6% lower MAPE than SARIMAX. |
+
+Top demand drivers from the XGBoost model:
+
+| Rank | Feature | Importance |
+| ---: | --- | ---: |
+| 1 | `commodity_lithium` | 0.6331 |
+| 2 | `demand_lag_1` | 0.1553 |
+| 3 | `demand_lag_7` | 0.1436 |
+| 4 | `demand_lag_30` | 0.0136 |
+| 5 | `rolling_demand_7` | 0.0098 |
+
+Best scenario-grid recommendation by commodity:
+
+| Commodity | Price Change | Capacity Constraint | Forecast Demand | Forecast Revenue |
+| --- | ---: | ---: | ---: | ---: |
+| copper | +10% | 0 | 1,257 | $4,871 |
+| corn | +10% | 0 | 1,875 | $16,804 |
+| lithium | +10% | 0 | 627 | $14,284 |
+| soybeans | +10% | 0 | 1,326 | $24,372 |
+| wheat | +10% | 0 | 1,757 | $12,709 |
 
 ## Business Interpretation
 

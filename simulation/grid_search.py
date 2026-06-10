@@ -4,8 +4,13 @@ from __future__ import annotations
 
 from itertools import product
 from pathlib import Path
+import sys
 
 import pandas as pd
+
+ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
 
 from models.features import BASE_FEATURES, load_feature_frame, time_split
 from models.xgboost_model import build_model
